@@ -20,14 +20,19 @@
 	        min-height: 50%;
 	    }
 
-	    #send_button {
-	    	min-width: 100%;
-	    	min-height: 50%;
+	    #send_button, #save_button {
+	    	min-width: 49.7%;
+	    	min-height: 5%;
 	    }
 
 	    /* Grid */
-	    #computer_grid, #your_grid {
+	    #your_grid {
 	    	/*background-color: #337ab7; */
+	    	background-color: #5bc0de;
+	    }
+
+	    #computer_grid {
+
 	    }
 
 	    #computer_grid .btn-group, #your_grid .btn-group {
@@ -41,6 +46,10 @@
 
 	    .fixed-table-body {
 	    	height: 49.9vh !important;
+	    }
+
+	    #controls {
+	    	background-color: #245580;
 	    }
 
 	</style>
@@ -65,7 +74,10 @@
 		    editor.setTheme("ace/theme/monokai");
 		    editor.getSession().setMode("ace/mode/javascript");
 		</script>
-		<button type="button" class="btn btn-success" id="send_button" onclick="sendClicked()">SEND</button>
+		<div id="controls">
+			<button type="button" class="btn btn-primary" id="send_button" onclick="sendClicked()"><img src="glyphicons/png/glyphicons-422-send.png"></button>
+			<button type="button" class="btn btn-primary" id="save_button" onclick="saveClicked()"><img src="glyphicons/png/glyphicons-447-floppy-save.png"></button>
+		</div>
 	</div>
 	<div class="split" id="game">
 		<div id="your_grid"></div>
@@ -128,8 +140,6 @@ $(function () {
 		mycontent.appendChild(document.createTextNode("This is a paragraph"));
 		mydiv.appendChild(mycontent);*/
 
-		//document.getElementById('buttons').innerHTML = '<span class="prego">Something</span>';
-
 		/* First Loop with innerHTML */
 		var rows = 3;
 		var columns = 5
@@ -142,7 +152,7 @@ $(function () {
 			for (var j = 0; j < columns; j++) {
 				square = i + "," + j;
 				//content += '<button type="button" class="btn btn-primary" id="' + square + '"' + 'onclick="clicked(' + square + ')">'+ i + ',' + j + '</button>';
-				content += '<button type="button" class="btn btn-primary" id="' + square + '"' + 'onclick="clicked(' + square + ')">' + '<img src="glyphicons/png/glyphicons-256-boat.png">' + '</button>';
+				content += '<button type="button" class="btn btn-info" id="' + square + '"' + 'onclick="clicked(' + square + ')">' + '<img src="glyphicons/png/glyphicons-256-boat.png">' + '</button>';
 				//content += '<button type="button" class="btn btn-primary"' + 'onclick="clicked(' + square + ')">' + '</button>';
 			}
 			content += '</div></br>';
@@ -191,6 +201,33 @@ $(function () {
 			}
 			//console.log(code);
 			eval(code);
+		}
+
+		function saveClicked(){
+			var data2 = 
+				[
+				    {
+				        "id": 0,
+				        "name_of_ship": "Batman",
+				        "owner": "Bruce Wayne",
+				    },
+				    {
+				        "id": 1,
+				        "name_of_ship": "Nightwing",
+				        "owner": "Dick Grayson",
+				    },
+				    {
+				        "id": 2,
+				        "name_of_ship": "Red Hood",
+				        "owner": "Jason Todd",
+				    },
+				    {
+				        "id": 3,
+				        "name_of_ship": "Red Robin",
+				        "owner": "Tim Drake",
+				    },				  
+				];
+			$('#table').bootstrapTable('load', data2);
 		}
 
 		function send(instruction){
