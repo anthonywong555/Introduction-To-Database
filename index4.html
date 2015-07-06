@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>Battleship</title>
+	<style type="text/css" media="screen">
+		.split {
+			min-width: 50%;
+			height: 100vh; 
+			float: left;
+		}
+
+		body {
+			width: 100%;
+			height: 100vh;
+		}
+
+		/* ACE Editor*/
+	    #editor { 
+	        min-width: 50%;
+	        min-height: 50%;
+	    }
+
+	    #send_button {
+	    	min-width: 100%;
+	    	min-height: 50%;
+	    }
+
+	    /* Grid */
+	    #computer_grid, #your_grid {
+	    	/*background-color: #337ab7; */
+	    }
+
+	    #computer_grid .btn-group, #your_grid .btn-group {
+	    	width: 100%;
+	    }
+
+	    #computer_grid button, #your_grid button{
+	    	width: 20%;
+	    	height: 16.71vh;
+	    }
+
+	    .fixed-table-body {
+	    	height: 49.9vh !important;
+	    }
+
+	</style>
+	<!--ACE Editor-->
+	<script src="ace-builds/src-noconflict/ace.js" type="text/javascript" charset="utf-8"></script>
+
+	<script src="https://code.jquery.com/jquery-1.11.0.min.js"></script>	
+	<!--Bootstrap Table-->
+	<script src="https://rawgit.com/wenzhixin/bootstrap-table/master/dist/bootstrap-table.min.js"></script>	
+	<link rel="stylesheet" href="https://rawgit.com/wenzhixin/bootstrap-table/master/dist/bootstrap-table.min.css">
+
+	<!--Bootstrap-->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
+	<!--<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>-->
+</head>
+<body>
+	<div class="split">
+		<div id="editor"></div>
+		<script>
+		    var editor = ace.edit("editor");
+		    editor.setTheme("ace/theme/monokai");
+		    editor.getSession().setMode("ace/mode/javascript");
+		</script>
+		<button type="button" class="btn btn-success" id="send_button" onclick="sendClicked()">SEND</button>
+	</div>
+	<div class="split" id="game">
+		<div id="your_grid"></div>
+		<div id="computer_grid">
+			<table id="table" style="max-height: 50%">
+    			<thead>
+        			<tr>
+		            	<th data-field="id">Ship ID</th>
+		            	<th data-field="name_of_ship">Name of Ship</th>
+		            	<th data-field="owner">Owner</th>
+        			</tr>
+    			</thead>
+			</table>
+		</div>
+	</div>
+	<script type="text/javascript">
+		var data = 
+[
+    {
+        "id": 0,
+        "name_of_ship": "Batman",
+        "owner": "Bruce Wayne",
+    },
+    {
+        "id": 1,
+        "name_of_ship": "Nightwing",
+        "owner": "Dick Grayson",
+    },
+    {
+        "id": 2,
+        "name_of_ship": "Red Hood",
+        "owner": "Jason Todd",
+    },
+    {
+        "id": 3,
+        "name_of_ship": "Red Robin",
+        "owner": "Tim Drake",
+    },
+    {
+        "id": 4,
+        "name_of_ship": "Robin",
+        "owner": "Damien Wayne",
+    },
+];
+
+$(function () {
+    $('#table').bootstrapTable({
+        data: data,
+        classes:'table table-hover',
+        striped: true,
+
+    });
+});
+	</script>
+	<script type="text/javascript">
+		/*
+		How to append
+		var mydiv = document.getElementById("buttons");
+		var mycontent = document.createElement("p");
+		mycontent.appendChild(document.createTextNode("This is a paragraph"));
+		mydiv.appendChild(mycontent);*/
+
+		//document.getElementById('buttons').innerHTML = '<span class="prego">Something</span>';
+
+		/* First Loop with innerHTML */
+		var rows = 3;
+		var columns = 5
+		var content = '';
+		var square = '';
+		var group = '<div class="btn-group btn-group-lg" role="group" aria-label="..." id="buttons">';
+
+		for (var i = 0; i < rows; i++) {
+			content += group;
+			for (var j = 0; j < columns; j++) {
+				square = i + "," + j;
+				//content += '<button type="button" class="btn btn-primary" id="' + square + '"' + 'onclick="clicked(' + square + ')">'+ i + ',' + j + '</button>';
+				content += '<button type="button" class="btn btn-primary" id="' + square + '"' + 'onclick="clicked(' + square + ')">' + '<img src="glyphicons/png/glyphicons-256-boat.png">' + '</button>';
+				//content += '<button type="button" class="btn btn-primary"' + 'onclick="clicked(' + square + ')">' + '</button>';
+			}
+			content += '</div></br>';
+		}
+
+		document.getElementById('your_grid').innerHTML = content;
+		//document.getElementById('your_grid').innerHTML = content;
+
+		function buildGrid(numrows, numcols, initial){
+   			var arr = [];
+   			for (var i = 0; i < numrows; ++i){
+      			var columns = [];
+      			for (var j = 0; j < numcols; ++j){
+         			columns[j] = Math.floor((Math.random() * 2));
+      			}
+      			arr[i] = columns;
+    		}
+    		return arr;
+		}
+
+		var grid = buildGrid(rows, columns, 0);
+		console.log(grid);
+
+		/**
+		 * Call function when the user clicks on the grid
+		 *
+		 **/
+		function clicked(row, column) {
+			var square = row + ',' + column;
+			console.log(grid[row][column]);
+
+			if(grid[row][column] == 1){
+				// isAShip
+				document.getElementById(square).className = "btn btn-success";
+				document.getElementById(square).innerHTML = "HIT!";
+			} else {
+				document.getElementById(square).className = "btn btn-danger";
+				document.getElementById(square).innerHTML = '<span class="glyphicon glyphicon-remove"  aria-hidden="true"></span>';
+			}
+		}
+
+		function sendClicked() {
+			var code = '';
+			for(var i = 0; i < document.getElementsByClassName("ace_line").length; i++) {
+				code += document.getElementsByClassName("ace_line")[i].innerText;
+			}
+			//console.log(code);
+			eval(code);
+		}
+
+		function send(instruction){
+			console.log(instruction);
+		}
+	</script>
+</body>
+</html>
