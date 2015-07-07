@@ -68,15 +68,15 @@
 </head>
 <body>
 	<div class="split">
-		<div id="editor"></div>
+		<div id="editor" onkeypress="keyPressed()"></div>
 		<script>
-		    var editor = ace.edit("editor");
+		    editor = ace.edit("editor");
 		    editor.setTheme("ace/theme/monokai");
 		    editor.getSession().setMode("ace/mode/javascript");
 		</script>
 		<div id="controls">
 			<button type="button" class="btn btn-primary" id="send_button" onclick="sendClicked()"><img src="glyphicons/png/glyphicons-422-send.png"></button>
-			<button type="button" class="btn btn-primary" id="save_button" onclick="saveClicked()"><img src="glyphicons/png/glyphicons-447-floppy-save.png"></button>
+			<button type="button" class="btn btn-primary" id="save_button" onclick="saveClicked()"><img id="save_icon" src="glyphicons/png/glyphicons-447-floppy-save.png"></button>
 		</div>
 	</div>
 	<div class="split" id="game">
@@ -94,43 +94,26 @@
 		</div>
 	</div>
 	<script type="text/javascript">
-		var data = 
-[
-    {
-        "id": 0,
-        "name_of_ship": "Batman",
-        "owner": "Bruce Wayne",
-    },
-    {
-        "id": 1,
-        "name_of_ship": "Nightwing",
-        "owner": "Dick Grayson",
-    },
-    {
-        "id": 2,
-        "name_of_ship": "Red Hood",
-        "owner": "Jason Todd",
-    },
-    {
-        "id": 3,
-        "name_of_ship": "Red Robin",
-        "owner": "Tim Drake",
-    },
-    {
-        "id": 4,
-        "name_of_ship": "Robin",
-        "owner": "Damien Wayne",
-    },
-];
+		$.ajax({
+			    type: "POST",
+			    url: "/send/data",			    
+			    data: JSON.stringify({ code1:  "SELECT * FROM ships" }),
+			    contentType: "application/json; charset=utf-8",
+			    dataType: "json",
+			    success: function(data){
+			    	console.log(data.rows);
 
-$(function () {
-    $('#table').bootstrapTable({
-        data: data,
-        classes:'table table-hover',
-        striped: true,
-
-    });
-});
+			    	//$('#table').bootstrapTable('load', data.rows);
+			    	$('#table').bootstrapTable({
+        				data: data.rows,
+        				classes:'table table-hover',
+        				striped: true,
+    				});
+			    },
+			    failure: function(errMsg) {
+			        console.log(errMsg);
+			    }
+			});
 	</script>
 	<script type="text/javascript">
 		/*
@@ -197,14 +180,45 @@ $(function () {
 		function sendClicked() {
 			var code = '';
 			for(var i = 0; i < document.getElementsByClassName("ace_line").length; i++) {
-				code += document.getElementsByClassName("ace_line")[i].innerText;
+				code += document.getElementsByClassName("ace_line")[i].innerText + "\n";
 			}
-			//console.log(code);
-			//eval(code);
+			console.log("Code:" + code);
+			eval(code);
+		}
+
+		function getCode(){
+			var code = '';
+			for(var i = 0; i < document.getElementsByClassName("ace_line").length; i++) {
+				code += document.getElementsByClassName("ace_line")[i].innerText + "\n";
+			}
+			//console.log("Code: " + code);
+			return editor.getValue();
+		}
+
+		function saveClicked(){
+			 document.getElementById("save_icon").src = "glyphicons/png/glyphicons-445-floppy-saved.png";
+			 document.getElementById("save_button").className ="btn btn-success";
+			 send2(insertCode(editor.getValue()));
+		}
+
+
+		function insertCode(code){
+			code = '"' + code.replace(/"/g, '') + '"';
+			console.log("New Code: " + code);
+    		return "INSERT INTO code (code) VALUES (" + code + ")";
+		}
+
+		function keyPressed(){
+			document.getElementById("save_icon").src = "glyphicons/png/glyphicons-447-floppy-save.png";
+			document.getElementById("save_button").className ="btn btn-primary";
+		}
+
+		function send2(instruction){
+			console.log(instruction);
 			$.ajax({
 			    type: "POST",
 			    url: "/send/data",			    
-			    data: JSON.stringify({ code1: code }),
+			    data: JSON.stringify({ code1: instruction }),
 			    contentType: "application/json; charset=utf-8",
 			    dataType: "json",
 			    success: function(data){
@@ -214,39 +228,43 @@ $(function () {
 			        console.log(errMsg);
 			    }
 			});
-			
-		}
-
-		function saveClicked(){
-			var data2 = 
-				[
-				    {
-				        "id": 0,
-				        "name_of_ship": "Batman",
-				        "owner": "Bruce Wayne",
-				    },
-				    {
-				        "id": 1,
-				        "name_of_ship": "Nightwing",
-				        "owner": "Dick Grayson",
-				    },
-				    {
-				        "id": 2,
-				        "name_of_ship": "Red Hood",
-				        "owner": "Jason Todd",
-				    },
-				    {
-				        "id": 3,
-				        "name_of_ship": "Red Robin",
-				        "owner": "Tim Drake",
-				    },				  
-				];
-			$('#table').bootstrapTable('load', data2);
 		}
 
 		function send(instruction){
-			console.log(instruction);
+			$.ajax({
+			    type: "POST",
+			    url: "/send/data",			    
+			    data: JSON.stringify({ code1: instruction }),
+			    contentType: "application/json; charset=utf-8",
+			    dataType: "json",
+			    success: function(data){
+			    	console.log(data.rows);
+
+			    	$('#table').bootstrapTable('load', data.rows);
+			    },
+			    failure: function(errMsg) {
+			        console.log(errMsg);
+			    }
+			});
 		}
+
+		$.ajax({
+			    type: "POST",
+			    url: "/send/data",			    
+			    data: JSON.stringify({ code1:  "SELECT * FROM code" }),
+			    contentType: "application/json; charset=utf-8",
+			    dataType: "json",
+			    success: function(data){
+			    	//console.log(data.rows[0].code);
+			    	//editor.setValue(data.rows[0].code);
+			    	editor.insert(data.rows[0].code);
+
+			    	console.log("editor.getValue()" + editor.getValue());
+			    },
+			    failure: function(errMsg) {
+			        console.log(errMsg);
+			    }
+			});
 	</script>
 </body>
 </html>
