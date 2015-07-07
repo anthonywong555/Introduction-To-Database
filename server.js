@@ -35,9 +35,7 @@ app.use('/glyphicons', express.static(__dirname + '/glyphicons'));
 
 
 app.post('/send/data', function (req, res){
-	connection.connect();
 	connection.query(req.body.code1, function(err, rows, fields) {
-		connection.end();
   		if (!err){
   			console.log('Works');
   			console.log("Rows: ", rows);
