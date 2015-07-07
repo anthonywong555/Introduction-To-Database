@@ -200,7 +200,21 @@ $(function () {
 				code += document.getElementsByClassName("ace_line")[i].innerText;
 			}
 			//console.log(code);
-			eval(code);
+			//eval(code);
+			$.ajax({
+			    type: "POST",
+			    url: "/send/data",			    
+			    data: JSON.stringify({ code1: code }),
+			    contentType: "application/json; charset=utf-8",
+			    dataType: "json",
+			    success: function(data){
+			    	console.log(data);
+			    },
+			    failure: function(errMsg) {
+			        console.log(errMsg);
+			    }
+			});
+			
 		}
 
 		function saveClicked(){
