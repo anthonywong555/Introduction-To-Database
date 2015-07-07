@@ -1,0 +1,203 @@
+0 info it worked if it ends with ok
+1 verbose cli [ '/usr/local/bin/node',
+1 verbose cli   '/usr/local/bin/npm',
+1 verbose cli   'install',
+1 verbose cli   'my--save',
+1 verbose cli   'mysql' ]
+2 info using npm@1.4.28
+3 info using node@v0.10.33
+4 warn package.json databases@0.0.1 No description
+5 warn package.json databases@0.0.1 No repository field.
+6 warn package.json databases@0.0.1 No README data
+7 verbose readDependencies using package.json deps
+8 verbose cache add [ 'my--save', null ]
+9 verbose cache add name=undefined spec="my--save" args=["my--save",null]
+10 verbose parsed url { protocol: null,
+10 verbose parsed url   slashes: null,
+10 verbose parsed url   auth: null,
+10 verbose parsed url   host: null,
+10 verbose parsed url   port: null,
+10 verbose parsed url   hostname: null,
+10 verbose parsed url   hash: null,
+10 verbose parsed url   search: null,
+10 verbose parsed url   query: null,
+10 verbose parsed url   pathname: 'my--save',
+10 verbose parsed url   path: 'my--save',
+10 verbose parsed url   href: 'my--save' }
+11 verbose cache add [ 'mysql', null ]
+12 verbose cache add name=undefined spec="mysql" args=["mysql",null]
+13 verbose parsed url { protocol: null,
+13 verbose parsed url   slashes: null,
+13 verbose parsed url   auth: null,
+13 verbose parsed url   host: null,
+13 verbose parsed url   port: null,
+13 verbose parsed url   hostname: null,
+13 verbose parsed url   hash: null,
+13 verbose parsed url   search: null,
+13 verbose parsed url   query: null,
+13 verbose parsed url   pathname: 'mysql',
+13 verbose parsed url   path: 'mysql',
+13 verbose parsed url   href: 'mysql' }
+14 silly lockFile 8efdb052-my-save my--save
+15 verbose lock my--save /home/nightwing/.npm/8efdb052-my-save.lock
+16 silly lockFile f460c882-mysql mysql
+17 verbose lock mysql /home/nightwing/.npm/f460c882-mysql.lock
+18 silly lockFile 8efdb052-my-save my--save
+19 silly lockFile 8efdb052-my-save my--save
+20 silly lockFile f460c882-mysql mysql
+21 silly lockFile f460c882-mysql mysql
+22 verbose addNamed [ 'my--save', '' ]
+23 verbose addNamed [ null, '*' ]
+24 silly lockFile f4fcd08a-my-save my--save@
+25 verbose lock my--save@ /home/nightwing/.npm/f4fcd08a-my-save.lock
+26 verbose addNamed [ 'mysql', '' ]
+27 verbose addNamed [ null, '*' ]
+28 silly lockFile 6df78a86-mysql mysql@
+29 verbose lock mysql@ /home/nightwing/.npm/6df78a86-mysql.lock
+30 silly addNameRange { name: 'my--save', range: '*', hasData: false }
+31 verbose request where is /my--save
+32 verbose request registry https://registry.npmjs.org/
+33 verbose request id 5102432866d0cd63
+34 verbose url raw /my--save
+35 verbose url resolving [ 'https://registry.npmjs.org/', './my--save' ]
+36 verbose url resolved https://registry.npmjs.org/my--save
+37 verbose request where is https://registry.npmjs.org/my--save
+38 info trying registry request attempt 1 at 23:33:48
+39 http GET https://registry.npmjs.org/my--save
+40 http 404 https://registry.npmjs.org/my--save
+41 verbose headers { server: 'CouchDB/1.5.0 (Erlang OTP/R16B03)',
+41 verbose headers   'content-type': 'application/json',
+41 verbose headers   'cache-control': 'max-age=0',
+41 verbose headers   'content-length': '51',
+41 verbose headers   'accept-ranges': 'bytes',
+41 verbose headers   date: 'Tue, 07 Jul 2015 03:33:48 GMT',
+41 verbose headers   via: '1.1 varnish',
+41 verbose headers   age: '0',
+41 verbose headers   connection: 'keep-alive',
+41 verbose headers   'x-served-by': 'cache-jfk1031-JFK',
+41 verbose headers   'x-cache': 'MISS',
+41 verbose headers   'x-cache-hits': '0',
+41 verbose headers   'x-timer': 'S1436240028.711512,VS0,VE93' }
+42 silly registry.get cb [ 404,
+42 silly registry.get   { server: 'CouchDB/1.5.0 (Erlang OTP/R16B03)',
+42 silly registry.get     'content-type': 'application/json',
+42 silly registry.get     'cache-control': 'max-age=0',
+42 silly registry.get     'content-length': '51',
+42 silly registry.get     'accept-ranges': 'bytes',
+42 silly registry.get     date: 'Tue, 07 Jul 2015 03:33:48 GMT',
+42 silly registry.get     via: '1.1 varnish',
+42 silly registry.get     age: '0',
+42 silly registry.get     connection: 'keep-alive',
+42 silly registry.get     'x-served-by': 'cache-jfk1031-JFK',
+42 silly registry.get     'x-cache': 'MISS',
+42 silly registry.get     'x-cache-hits': '0',
+42 silly registry.get     'x-timer': 'S1436240028.711512,VS0,VE93' } ]
+43 silly lockFile f4fcd08a-my-save my--save@
+44 silly lockFile f4fcd08a-my-save my--save@
+45 silly addNameRange { name: 'mysql', range: '*', hasData: false }
+46 verbose request where is /mysql
+47 verbose request registry https://registry.npmjs.org/
+48 verbose url raw /mysql
+49 verbose url resolving [ 'https://registry.npmjs.org/', './mysql' ]
+50 verbose url resolved https://registry.npmjs.org/mysql
+51 verbose request where is https://registry.npmjs.org/mysql
+52 info trying registry request attempt 1 at 23:34:25
+53 verbose etag "BG55JLO0C3AASB74Y6GSQXEEU"
+54 http GET https://registry.npmjs.org/mysql
+55 http 304 https://registry.npmjs.org/mysql
+56 silly registry.get cb [ 304,
+56 silly registry.get   { date: 'Tue, 07 Jul 2015 03:34:27 GMT',
+56 silly registry.get     via: '1.1 varnish',
+56 silly registry.get     'cache-control': 'max-age=60',
+56 silly registry.get     etag: '"BG55JLO0C3AASB74Y6GSQXEEU"',
+56 silly registry.get     age: '39',
+56 silly registry.get     connection: 'keep-alive',
+56 silly registry.get     'x-served-by': 'cache-jfk1034-JFK',
+56 silly registry.get     'x-cache': 'HIT',
+56 silly registry.get     'x-cache-hits': '1',
+56 silly registry.get     'x-timer': 'S1436240067.846455,VS0,VE1',
+56 silly registry.get     vary: 'Accept' } ]
+57 verbose etag https://registry.npmjs.org/mysql from cache
+58 silly addNameRange number 2 { name: 'mysql', range: '*', hasData: true }
+59 silly addNameRange versions [ 'mysql',
+59 silly addNameRange   [ '0.1.0',
+59 silly addNameRange     '0.2.0',
+59 silly addNameRange     '0.3.0',
+59 silly addNameRange     '0.4.0',
+59 silly addNameRange     '0.5.0',
+59 silly addNameRange     '0.6.0',
+59 silly addNameRange     '0.7.0',
+59 silly addNameRange     '0.8.0',
+59 silly addNameRange     '0.9.0',
+59 silly addNameRange     '0.9.1',
+59 silly addNameRange     '0.9.2',
+59 silly addNameRange     '0.9.3',
+59 silly addNameRange     '0.9.4',
+59 silly addNameRange     '0.9.5',
+59 silly addNameRange     '0.9.6',
+59 silly addNameRange     '2.0.0-alpha',
+59 silly addNameRange     '2.0.0-alpha2',
+59 silly addNameRange     '2.0.0-alpha3',
+59 silly addNameRange     '2.0.0-alpha4',
+59 silly addNameRange     '2.0.0-alpha5',
+59 silly addNameRange     '2.0.0-alpha6',
+59 silly addNameRange     '2.0.0-alpha7',
+59 silly addNameRange     '2.0.0-alpha8',
+59 silly addNameRange     '2.0.0-alpha9',
+59 silly addNameRange     '2.0.0-rc1',
+59 silly addNameRange     '2.0.0-rc2',
+59 silly addNameRange     '2.0.0',
+59 silly addNameRange     '2.0.1',
+59 silly addNameRange     '2.1.0',
+59 silly addNameRange     '2.1.1',
+59 silly addNameRange     '2.2.0',
+59 silly addNameRange     '2.3.0',
+59 silly addNameRange     '2.3.1',
+59 silly addNameRange     '2.3.2',
+59 silly addNameRange     '2.4.0',
+59 silly addNameRange     '2.4.1',
+59 silly addNameRange     '2.4.2',
+59 silly addNameRange     '2.4.3',
+59 silly addNameRange     '2.5.0',
+59 silly addNameRange     '2.5.1',
+59 silly addNameRange     '2.5.2',
+59 silly addNameRange     '2.5.3',
+59 silly addNameRange     '2.5.4',
+59 silly addNameRange     '2.5.5',
+59 silly addNameRange     '2.6.0',
+59 silly addNameRange     '2.6.1',
+59 silly addNameRange     '2.6.2',
+59 silly addNameRange     '2.7.0' ] ]
+60 verbose addNamed [ 'mysql', '2.7.0' ]
+61 verbose addNamed [ '2.7.0', '2.7.0' ]
+62 silly lockFile 4f785a10-mysql-2-7-0 mysql@2.7.0
+63 verbose lock mysql@2.7.0 /home/nightwing/.npm/4f785a10-mysql-2-7-0.lock
+64 silly lockFile bb2ded36--npmjs-org-mysql-mysql-2-7-0-tgz https://registry.npmjs.org/mysql/-/mysql-2.7.0.tgz
+65 verbose lock https://registry.npmjs.org/mysql/-/mysql-2.7.0.tgz /home/nightwing/.npm/bb2ded36--npmjs-org-mysql-mysql-2-7-0-tgz.lock
+66 verbose addRemoteTarball [ 'https://registry.npmjs.org/mysql/-/mysql-2.7.0.tgz',
+66 verbose addRemoteTarball   '02f99c0ecada01c1dca100d96a6202f40c88261d' ]
+67 info retry fetch attempt 1 at 23:34:28
+68 verbose fetch to= /tmp/npm-10316-Vr3rZpQc/registry.npmjs.org/mysql/-/mysql-2.7.0.tgz
+69 http GET https://registry.npmjs.org/mysql/-/mysql-2.7.0.tgz
+70 http 200 https://registry.npmjs.org/mysql/-/mysql-2.7.0.tgz
+71 silly lockFile bb2ded36--npmjs-org-mysql-mysql-2-7-0-tgz https://registry.npmjs.org/mysql/-/mysql-2.7.0.tgz
+72 silly lockFile bb2ded36--npmjs-org-mysql-mysql-2-7-0-tgz https://registry.npmjs.org/mysql/-/mysql-2.7.0.tgz
+73 silly lockFile 4f785a10-mysql-2-7-0 mysql@2.7.0
+74 silly lockFile 4f785a10-mysql-2-7-0 mysql@2.7.0
+75 silly lockFile 6df78a86-mysql mysql@
+76 silly lockFile 6df78a86-mysql mysql@
+77 error 404 404 Not Found: my--save
+77 error 404
+77 error 404 'my--save' is not in the npm registry.
+77 error 404 You should bug the author to publish it
+77 error 404 It was specified as a dependency of 'databases'
+77 error 404
+77 error 404 Note that you can also install from a
+77 error 404 tarball, folder, or http url, or git url.
+78 error System Linux 3.13.0-49-generic
+79 error command "/usr/local/bin/node" "/usr/local/bin/npm" "install" "my--save" "mysql"
+80 error cwd /home/nightwing/introduction-to-database
+81 error node -v v0.10.33
+82 error npm -v 1.4.28
+83 error code E404
+84 verbose exit [ 1, true ]
