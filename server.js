@@ -5,7 +5,9 @@ app.get('/', function(req, res) {
     res.sendfile(__dirname + '/index4.html');
 });
 
-//app.use('/js', express.static(__dirname + '/client/js'));
+app.use('/ace-builds', express.static(__dirname + '/ace-builds'));
+app.use('/glyphicons', express.static(__dirname + '/glyphicons'));
+
 
 //app.post('/api/meetups', meetupsController.create);
 
