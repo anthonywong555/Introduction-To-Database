@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Battleship</title>
+                  <!-- Load Libraries -->
+          <!-- jQuery -->
+  <script src="lib/jQuery/jquery-1.11.0.min.js"></script>
+
+          <!-- ACE Editor -->
+  <!-- load ace -->
+  <script src="lib/ace/src-noconflict/ace.js"></script>
+  <!-- load ace language tools -->
+  <script src="lib/ace/src-noconflict/ext-language_tools.js"></script>
+
+          <!-- Bootstrap -->
+  <!-- Latest compiled and minified CSS -->
+  <link rel="stylesheet" href="lib/bootstrap/css/bootstrap.min.css"/>
+
+  <!-- Optional theme -->
+  <link rel="stylesheet" href="lib/bootstrap/css/bootstrap-theme.min.css"/>
+
+  <!-- Latest compiled and minified JavaScript -->
+  <script src="lib/bootstrap/js/bootstrap.min.js"></script>
+
+          <!-- Bootstrap-Tables -->      
+  <!-- Load Bootstrap-Tables Script -->            
+  <script src="lib/bootstrap-table/dist/bootstrap-table.min.js"></script> 
+  
+  <!-- Load Bootstrap-Tables Styles -->
+  <link rel="stylesheet" href="lib/bootstrap-table/dist/bootstrap-table.min.css">
+
+                <!-- Load Scripts and Styles -->
+  <link rel="stylesheet" href="styles/styles.css">
+
+  <script type="text/javascript" src="js/api.js"></script>
+
+</head>
+<body>
+  <div class="split">
+    
+    <!-- ACE Editor -->
+    <div id="editor" onkeypress="editorKeyPressed()"></div>
+
+    <!-- My Ace File that runs Ace Editor -->
+    <script src="js/ace/my-ace.js"></script>
+
+
+    <div id="controls">
+
+      <!-- Controls -->
+      <button type="button" class="btn btn-primary" id="send_button" onclick="runButtonOnClicked()"><img src="lib/glyphicons/png/glyphicons-422-send.png"></button>
+      <button type="button" class="btn btn-primary" id="save_button" onclick="saveButtonOnClicked()"><img id="save_icon" src="lib/glyphicons/png/glyphicons-447-floppy-save.png"></button>
+    </div>
+  </div>
+  <div class="split" id="game">
+    <div id="your_grid"></div>
+    <div id="computer_grid">
+      <table id="table" style="max-height: 50%">
+        <thead>
+          <tr>
+            <th data-field="id">Ship ID</th>
+            <th data-field="name_of_ship">Name of Ship</th>
+            <th data-field="owner">Owner</th>
+            <th data-field="x">X-Position</th>
+            <th data-field="y">Y-Position</th>
+          </tr>
+        </thead>
+        </table>
+    </div>
+  </div>
+
+  <!-- Load Grid lib/glyphicons/png/glyphicons-256-boat.png -->
+  <script type="text/javascript" src="js/grid.js"></script>
+
+  <script type="text/javascript">
+    /*
+     *  Load the ships
+     */   
+    $.ajax({
+          type: "POST",
+          url: "/query",          
+          data: JSON.stringify({ "query": "SELECT * FROM ships" }),
+          contentType: "application/json; charset=utf-8",
+          dataType: "json",
+          success: function(data){
+            console.log("Load the ships");
+            console.log(data);
+
+            // Load it on the table
+            $('#table').bootstrapTable({
+                data: data.rows,
+                classes:'table table-hover',
+                striped: true,
+            });
+
+            // Load it on the grid
+            for(var i = 0; i < data.rows.length; i++){
+              var x = data.rows[i].x;
+              var y = data.rows[i].y;
+              console.log("x: " + x + "y: " + y);
+              var id =  x + ',' + y ;
+              
+              document.getElementById(id).src ="lib/glyphicons/png/glyphicons-256-boat.png";
+            }
+          },
+          failure: function(errMsg) {
+              console.log(errMsg);
+          }
+      });
+
+    /*
+     * Load code from the database
+     */
+    $.ajax({
+          type: "POST",
+          url: "/load/code",          
+          data: JSON.stringify({ "author": "Anthony" }),
+          contentType: "application/json; charset=utf-8",
+          dataType: "json",
+          success: function(data){
+            console.log("Load code from the database");
+            console.log(data);
+            editor.insert(data[0].code);
+          },
+          failure: function(errMsg) {
+              console.log(errMsg);
+          }
+      });
+  </script>
+</body>
+</html>
