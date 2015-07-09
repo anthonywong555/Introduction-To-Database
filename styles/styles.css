@@ -1,0 +1,49 @@
+.split {
+	min-width: 50%;
+	max-width: 50%;
+	height: 100vh; 
+	float: left;
+}
+
+body {
+	width: 100%;
+	height: 100vh;
+}
+
+/* ACE Editor*/
+#editor { 
+    min-width: 50%;
+    min-height: 50%;
+}
+
+#send_button, #save_button {
+	min-width: 49.7%;
+	min-height: 5%;
+}
+
+/* Grid */
+#your_grid {
+	/*background-color: #337ab7; */
+	background-color: #5bc0de;
+}
+
+#computer_grid {
+
+}
+
+#computer_grid .btn-group, #your_grid .btn-group {
+	width: 100%;
+}
+
+#computer_grid button, #your_grid button{
+	width: 20%;
+	height: 16.71vh;
+}
+
+.fixed-table-body {
+	height: 49.9vh !important;
+}
+
+#controls {
+	background-color: #245580;
+}
