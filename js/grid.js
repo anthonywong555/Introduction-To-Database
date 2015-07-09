@@ -14,7 +14,7 @@ for (var i = 0; i < rows; i++) {
   for (var j = 0; j < columns; j++) {
     square = i + "," + j;
     //content += '<button type="button" class="btn btn-primary" id="' + square + '"' + 'onclick="clicked(' + square + ')">'+ i + ',' + j + '</button>';
-    content += '<button type="button" class="btn btn-info"' + 'onclick="clicked(' + square + ')">' + '<img id="' + square + '"' + 'src="lib/glyphicons/png/glyphicons-262-buoy.png">' + '</button>';
+    content += '<button type="button" class="btn btn-info"' + 'id="' + square + '"' + 'onclick="clicked(' + square + ')">' + '<img ' + 'src="lib/glyphicons/png/glyphicons-262-buoy.png">' + '</button>';
     //content += '<button type="button" class="btn btn-primary"' + 'onclick="clicked(' + square + ')">' + '</button>';
   }
   content += '</div></br>';
@@ -28,7 +28,7 @@ function buildGrid(numrows, numcols, initial){
     for (var i = 0; i < numrows; ++i){
         var columns = [];
         for (var j = 0; j < numcols; ++j){
-          columns[j] = Math.floor((Math.random() * 2));
+          columns[j] = 0;
         }
         arr[i] = columns;
     }

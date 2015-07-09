@@ -82,20 +82,30 @@ function sendQuery(query){
       success: function(data){
         console.log(data);
         if(data.hasOwnProperty('rows')){
+          console.log("table updated");
           $('#table').bootstrapTable('load', data.rows);
 
+          /*
           for (var i = 0; i < rows; i++) {
             for (var j = 0; j < columns; j++) {
               var square = i + "," + j;
               document.getElementById(square).src ="lib/glyphicons/png/glyphicons-262-buoy.png";
             }
-          }
+          }*/
 
+          for (var i = 0; i < rows; i++) {
+            for (var j = 0; j < columns; j++) {
+              console.log("rows: " + i + "columns: " + j);
+              grid[i][j] = 0;
+            }
+          }
+          
           if(data.rows.length > 0){
-            /* Load the boat image */
+            // Load the boat image 
             for(var i = 0; i < data.rows.length; i++){
               var x = data.rows[i].x;
               var y = data.rows[i].y;
+              grid[y][x] = 1;
               console.log("x: " + x + "y: " + y);
               var id =  x + ',' + y ;
               
@@ -103,6 +113,7 @@ function sendQuery(query){
             }
           }
         }
+
         return data;
       },
       failure: function(errMsg) {

@@ -30,6 +30,12 @@
   <!-- Load Bootstrap-Tables Styles -->
   <link rel="stylesheet" href="lib/bootstrap-table/dist/bootstrap-table.min.css">
 
+          <!-- jQuery Terminal -->
+  <!--<script src="lib/jquery-terminal/js/jquery-1.7.1.min.js"></script>-->
+  <script src="lib/jquery-terminal/js/jquery.mousewheel-min.js"></script>
+  <script src="lib/jquery-terminal/js/jquery.terminal-min.js"></script>
+  <link rel="stylesheet" href="lib/jquery-terminal/css/jquery.terminal.css"/>
+
                 <!-- Load Scripts and Styles -->
   <link rel="stylesheet" href="styles/styles.css">
 
@@ -51,6 +57,17 @@
       <!-- Controls -->
       <button type="button" class="btn btn-primary" id="send_button" onclick="runButtonOnClicked()"><img src="lib/glyphicons/png/glyphicons-422-send.png"></button>
       <button type="button" class="btn btn-primary" id="save_button" onclick="saveButtonOnClicked()"><img id="save_icon" src="lib/glyphicons/png/glyphicons-447-floppy-save.png"></button>
+      <div id="terminal" style="height: 45vh">
+        <script>
+          jQuery(document).ready(function($) {
+              var term = $('#terminal').terminal(function(command, term){}, { prompt: '>', greetings: "", enabled: false, focus: false});
+              term.disabled = "disabled";
+
+              //console.log = function(str){term.echo(str);}   
+             
+          });
+        </script>
+      </div>
     </div>
   </div>
   <div class="split" id="game">
@@ -94,14 +111,16 @@
                 striped: true,
             });
 
+            
             // Load it on the grid
             for(var i = 0; i < data.rows.length; i++){
               var x = data.rows[i].x;
               var y = data.rows[i].y;
+              grid[y][x] = 1;
               console.log("x: " + x + "y: " + y);
               var id =  x + ',' + y ;
               
-              document.getElementById(id).src ="lib/glyphicons/png/glyphicons-256-boat.png";
+              //document.getElementById(id).src ="lib/glyphicons/png/glyphicons-256-boat.png";
             }
           },
           failure: function(errMsg) {
