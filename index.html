@@ -63,7 +63,7 @@
               var term = $('#terminal').terminal(function(command, term){}, { prompt: '>', greetings: "", enabled: false, focus: false});
               term.disabled = "disabled";
 
-              //console.log = function(str){term.echo(str);}   
+              console.log = function(str){term.echo(str);}   
              
           });
         </script>
