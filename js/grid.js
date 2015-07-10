@@ -14,7 +14,7 @@ for (var i = 0; i < rows; i++) {
   for (var j = 0; j < columns; j++) {
     square = i + "," + j;
     //content += '<button type="button" class="btn btn-primary" id="' + square + '"' + 'onclick="clicked(' + square + ')">'+ i + ',' + j + '</button>';
-    content += '<button type="button" class="btn btn-info"' + 'id="' + square + '"' + 'onclick="clicked(' + square + ')">' + '<img ' + 'src="lib/glyphicons/png/glyphicons-262-buoy.png">' + '</button>';
+    content += '<button type="button" disabled="disabled" class="btn btn-info"' + 'id="' + square + '"' + 'onclick="clicked(' + square + ')">' + '<img ' + 'src="lib/glyphicons/png/glyphicons-262-buoy.png">' + '</button>';
     //content += '<button type="button" class="btn btn-primary"' + 'onclick="clicked(' + square + ')">' + '</button>';
   }
   content += '</div></br>';
@@ -43,13 +43,14 @@ var grid = buildGrid(rows, columns, 0);
  **/
 function clicked(row, column) {
   var square = row + ',' + column;
-  console.log(grid[row][column]);
 
   if(grid[row][column] == 1){
     // isAShip
+    printToConsole("isAShip", "green");
     document.getElementById(square).className = "btn btn-success";
     document.getElementById(square).innerHTML = "HIT!";
   } else {
+    printToConsole("isNotAShip", "red");
     document.getElementById(square).className = "btn btn-danger";
     document.getElementById(square).innerHTML = '<span class="glyphicon glyphicon-remove"  aria-hidden="true"></span>';
   }

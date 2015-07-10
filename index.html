@@ -59,13 +59,11 @@
       <button type="button" class="btn btn-primary" id="save_button" onclick="saveButtonOnClicked()"><img id="save_icon" src="lib/glyphicons/png/glyphicons-447-floppy-save.png"></button>
       <div id="terminal" style="height: 45vh">
         <script>
-          jQuery(document).ready(function($) {
-              var term = $('#terminal').terminal(function(command, term){}, { prompt: '>', greetings: "", enabled: false, focus: false});
-              term.disabled = "disabled";
-
-              console.log = function(str){term.echo(str);}   
-             
+          term = $('#terminal').terminal(function(command, term){}, { 
+            prompt: '>', greetings: "", enabled: false, focus: false
           });
+          term.disabled = "disabled";
+          //console.log = function(str){term.echo(str);}
         </script>
       </div>
     </div>
@@ -93,7 +91,12 @@
   <script type="text/javascript">
     /*
      *  Load the ships
-     */   
+     */
+    term.echo("LOADING SHIPS", {
+      finalize: function(div) {
+        div.css("color", "#5bc0de");
+      }
+    });
     $.ajax({
           type: "POST",
           url: "/query",          
@@ -101,9 +104,14 @@
           contentType: "application/json; charset=utf-8",
           dataType: "json",
           success: function(data){
-            console.log("Load the ships");
-            console.log(data);
+            term.echo("SUCCESSFULLY LOADING SHIPS", {
+              finalize: function(div) {
+                div.css("color", "green");
+              }
+            });
 
+            //console.log(data);
+            
             // Load it on the table
             $('#table').bootstrapTable({
                 data: data.rows,
@@ -124,13 +132,22 @@
             }
           },
           failure: function(errMsg) {
-              console.log(errMsg);
+            term.echo("ERROR LOADING SHIPS", {
+              finalize: function(div) {
+                div.css("color", "red");
+              }
+            });
           }
       });
 
     /*
      * Load code from the database
      */
+    term.echo("LOADING CODE", {
+      finalize: function(div) {
+        div.css("color", "#5bc0de");
+      }
+    });
     $.ajax({
           type: "POST",
           url: "/load/code",          
@@ -138,12 +155,19 @@
           contentType: "application/json; charset=utf-8",
           dataType: "json",
           success: function(data){
-            console.log("Load code from the database");
-            console.log(data);
+            term.echo("SUCCESSFULLY LOADING CODE", {
+              finalize: function(div) {
+                div.css("color", "green");
+              }
+            });
             editor.insert(data[0].code);
           },
           failure: function(errMsg) {
-              console.log(errMsg);
+            term.echo("ERROR LOADING CODE", {
+              finalize: function(div) {
+                div.css("color", "red");
+              }
+            });
           }
       });
   </script>
