@@ -11,6 +11,25 @@ function editorKeyPressed(){
   document.getElementById("save_button").className ="btn btn-primary";
 }
 
+function compareTwoObjects(obj1, obj2){
+  return JSON.stringify(obj1) === JSON.stringify(obj2) 
+}
+
+/**
+ * [isObjectContainsArray description]
+ * @param  {[type]}  array [description]
+ * @param  {[type]}  obj   [description]
+ * @return {Boolean}       [description]
+ */
+function isObjectContainsArray(array, obj){
+  for(var i = 0; i < array.length; i++){
+    if(compareTwoObjects(array[i], obj)){
+      return true;
+    }
+  }
+  return false;
+}
+
 /**
  * [Ctrl-S]
  * @return {[type]} [description]
@@ -171,3 +190,4 @@ function updateTable(data){
       }
     }
 }
+

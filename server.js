@@ -21,6 +21,10 @@ app.get('/', function(req, res) {
     res.sendfile(__dirname + '/index.html');
 });
 
+app.get('/demo', function(req, res) {
+    res.sendfile(__dirname + '/demo.html');
+});
+
 /**
  * Directing Files 
  */
