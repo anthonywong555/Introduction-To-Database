@@ -1,0 +1,25 @@
+<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>JSON-RPC Demo for JQuery Terminal Emulator</title>
+    <script src="lib/jquery-terminal/js/jquery-1.7.1.min.js"></script>
+    <script src="lib/jquery-terminal/js/jquery.mousewheel-min.js"></script>
+    <script src="lib/jquery-terminal/js/jquery.terminal-min.js"></script>
+    <link rel="stylesheet" href="lib/jquery-terminal/css/jquery.terminal.css"/>
+  </head>
+<body>
+
+<script>
+jQuery(document).ready(function($) {
+    var term = $('body').terminal(function(command, term){}, { prompt: '>', greetings: "", enabled: false, focus: false});
+    term.disabled = "disabled";
+
+    $(".terminal :input").attr("disabled", true);
+
+    console.log = function(str){term.echo(str);}   
+   
+});
+
+</script>
+</body>

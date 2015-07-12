@@ -1,0 +1,10 @@
+{
+  "name": "databases",
+  "version": "0.0.1",
+  "dependencies": {
+    "express": "~4.13.1",
+    "mysql": "~2.7.0",
+    "body-parser": "~1.13.2",
+    "mongoose": "^4.0.6"
+  }
+}
