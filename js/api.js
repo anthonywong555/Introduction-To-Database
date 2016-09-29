@@ -51,6 +51,45 @@ function runCode(code){
 	eval(code);
 }
 
+
+function saveButtonOnClicked2(userName){
+  term.echo("SAVING CODE", {
+      finalize: function(div) {
+        div.css("color", "#5bc0de");
+      }
+    });
+  document.getElementById("save_icon").src = "lib/glyphicons/png/glyphicons-445-floppy-saved.png";
+  document.getElementById("save_button").className ="btn btn-success";
+  
+  /* Modify the code */
+  var code = editor.getSession().getValue();
+  var request = "INSERT INTO code (code) VALUES (" + code + ")";
+
+  /* Send the request */
+  $.ajax({
+    type: "POST",
+      url: "/save/code",          
+      data: JSON.stringify({"author" : userName,  "code": code }),
+      contentType: "application/json; charset=utf-8",
+      dataType: "json",
+      success: function(data){        
+        term.echo("SUCCESSFULLY SAVE CODE", {
+          finalize: function(div) {
+            div.css("color", "green");
+          }
+        });
+      },
+      failure: function(errMsg) {
+        term.echo("ERROR: SAVING CODE--saveButtonOnClicked()", {
+          finalize: function(div) {
+            div.css("color", "red");
+          }
+        });
+      }
+  });
+}
+
+
 /**
  * [Save Button ActionListner]
  */
@@ -126,8 +165,18 @@ function sendQuery(query){
         console.log("SUCCESSFULLY SENT QUERY");
         console.log("Data:");
         console.log(data);
-        updateGrid(data);
 
+        if(document.getElementById("your_grid") !== null){
+        	updateGrid(data);
+	}
+	else
+	{
+		printToConsole('RESULTS:', 'green');
+		for( var index in data.rows ){
+			var person = data.rows[index];
+			printToConsole(JSON.stringify(person), 'green');
+		}
+	}
         if(document.getElementById('table') !== null){
           updateTable(data); 
         }

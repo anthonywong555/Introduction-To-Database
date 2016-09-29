@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Battleship DEMO</title>
+			<!-- Load Libraries -->
+		<!-- jQuery -->
+	<script src="lib/jQuery/jquery-1.11.0.min.js"></script>
+
+      		<!-- ACE Editor -->
+	<!-- load ace -->
+	<script src="lib/ace/src-noconflict/ace.js"></script>
+	<!-- load ace language tools -->
+	<script src="lib/ace/src-noconflict/ext-language_tools.js"></script>
+
+	      <!-- Bootstrap -->
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="lib/bootstrap/css/bootstrap.min.css"/>
+
+	<!-- Optional theme -->
+	<link rel="stylesheet" href="lib/bootstrap/css/bootstrap-theme.min.css"/>
+
+	<!-- Latest compiled and minified JavaScript -->
+	<script src="lib/bootstrap/js/bootstrap.min.js"></script>
+
+	      <!-- Bootstrap-Tables -->      
+	<!-- Load Bootstrap-Tables Script -->            
+	<script src="lib/bootstrap-table/dist/bootstrap-table.min.js"></script> 
+
+	<!-- Load Bootstrap-Tables Styles -->
+	<link rel="stylesheet" href="lib/bootstrap-table/dist/bootstrap-table.min.css">
+
+	      <!-- jQuery Terminal -->
+	<!--<script src="lib/jquery-terminal/js/jquery-1.7.1.min.js"></script>-->
+	<script src="lib/jquery-terminal/js/jquery.mousewheel-min.js"></script>
+	<script src="lib/jquery-terminal/js/jquery.terminal-min.js"></script>
+	<link rel="stylesheet" href="lib/jquery-terminal/css/jquery.terminal.css"/>
+
+	            <!-- Load Scripts and Styles -->
+	<link rel="stylesheet" href="styles/styles.css">
+
+	<script type="text/javascript" src="js/api.js"></script>
+	<script type="text/javascript" src="js/grid-api.js"></script>
+	<script type="text/javascript" src="js/grid-boats.js"></script>
+	<script type="text/javascript" src="js/ai.js"></script>
+</head>
+<body>
+  <div class="split">
+    
+    <!-- ACE Editor -->
+    <div id="editor" onkeypress="editorKeyPressed()"></div>
+
+    <!-- My Ace File that runs Ace Editor -->
+    <script src="js/ace/my-ace.js"></script>
+
+    <div id="controls">
+
+      <!-- Controls -->
+      <button type="button" class="btn btn-primary" id="send_button" onclick="runButtonOnClicked()"><img src="lib/glyphicons/png/glyphicons-340-rabbit.png"></button>
+      <button type="button" class="btn btn-primary" id="save_button" onclick="saveButtonOnClicked()"><img id="save_icon" src="lib/glyphicons/png/glyphicons-447-floppy-save.png"></button>
+      <div id="terminal" style="height: 45vh">
+        <script>
+          var term = $('#terminal').terminal(function(command, term){}, { 
+            prompt: '>', greetings: "", enabled: false, focus: false
+          });
+          term.disabled = "disabled";
+          //console.log = function(str){term.echo(str);}
+        </script>
+      </div>
+    </div>
+  </div>
+  <div class="split" id="game">
+    <div id="your_grid">
+    	<script type="text/javascript">  
+    	// Load the player boats from the server
+      printToConsole("LOADING SHIPS", "#5bc0de"); 
+    	$.ajax({
+	      type: "POST",
+	      url: "/query",          
+	      data: JSON.stringify({ "query": "SELECT * FROM ships" }),
+	      contentType: "application/json; charset=utf-8",
+	      dataType: "json",
+	      success: function(data){
+	      	// Print the message to the screen
+	        printToConsole("SUCCESSFULLY LOADING SHIPS", "green");
+
+	        // Create an object and build internal grid
+	        your_grid = new GridBoats(3,5,0, data.rows);
+
+	        // Build the button grid of your_grid
+	        your_grid.buildButtonGrid("your_grid");
+
+	        // Shows the boats inside that grid
+	        your_grid.showBoats(your_grid.boats, "your_grid");
+	      },
+	      failure: function(errMsg) {
+          // Print the error message to the screen
+	        printToConsole("ERROR: LOADING SHIPS", "red");
+	      }
+	  	});
+
+      // Loading code from the database
+      printToConsole("LOADING CODE", "#5bc0de");
+      $.ajax({
+        type: "POST",
+        url: "/load/code",          
+        data: JSON.stringify({ "author": "Anthony" }),
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        success: function(data){
+          printToConsole("SUCCESSFULLY LOADING CODE", "green"); 
+          editor.insert(data[0].code);
+        },
+        failure: function(errMsg) {
+          printToConsole("ERROR: LOADING CODE", "red"); 
+        }
+      });
+    	</script>
+    </div>
+    <div id="computer_grid">    
+    	<script type="text/javascript">
+    		// Generate AI Boats
+    		var computer_boats = generateBoats(2, 3, 5);
+        printToConsole("GENERATE AI: SHIPS", "#5bc0de");
+
+    		// Create an object and build internal grid
+    		computer_grid = new GridBoats(3,5,0, computer_boats);
+        printToConsole("GENERATE AI: INTERNAL GRID", "#5bc0de");
+
+    		// Build the button grid of computer_grid
+    		computer_grid.buildButtonGrid("computer_grid");
+        printToConsole("GENERATE AI: BUTTON GRID", "#5bc0de");
+
+    		// Fill the internal grid with boats
+    		computer_grid.fillGridwithBoats(computer_boats);
+        printToConsole("AI: FILL INTERNAL GRID WITH SHIPS", "#5bc0de");
+
+    		// Start a task to see if the player boat is undefined
+    		var timer = setInterval(function(){checkPlayerBoat()}, 1000);
+
+        //Check to see if the player boat is undefined
+    		function checkPlayerBoat(){
+    			if(your_grid.boats !== undefined){
+
+    				// Stop the timer
+    				clearInterval(timer);
+
+    				//Start AI thread
+    				AI = new Worker('js/ai.js');
+    				if('function' === typeof importScripts){
+    					importScripts('ai-api.js');
+    				}
+
+    				AI.onmessage = function(message){
+    					// When reciving messages from ai.js
+    					switch(message.data.command){
+                case "info":
+                  printToConsole(message.data.message, "#5bc0de");
+                  break;
+    						case "fire":
+    							your_grid.selectSquare(message.data.x, message.data.y, "your_grid");
+    							printToConsole(message.data.message, "red");
+    							break;
+    						default:
+    							break;
+    					}
+    				}
+
+    				// Pass player_boats, computer_boats, number_of_rows / columns
+    				AI.postMessage({
+    					"command" : "init", 
+    					"player_boats" : your_grid.boats,
+						  "computer_boats" : computer_boats,
+						  "rows" : 3,
+						  "columns" : 5
+					 });
+    			}
+    		}
+
+    	</script>
+    </div>
+  </div>
+</body>
+</html>

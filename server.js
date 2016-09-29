@@ -18,11 +18,15 @@ mongoose.connect('mongodb://localhost/test');
 app.use(bodyParser());
 
 app.get('/', function(req, res) {
-    res.sendfile(__dirname + '/index.html');
+    res.sendfile(__dirname + '/test.html');
 });
 
 app.get('/demo', function(req, res) {
     res.sendfile(__dirname + '/demo.html');
+});
+
+app.get('/clue', function(req, res) {
+     res.sendfile(__dirname + '/clue.html');
 });
 
 /**

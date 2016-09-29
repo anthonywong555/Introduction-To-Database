@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Clue</title>
+                  <!-- Load Libraries -->
+          <!-- jQuery -->
+  <script src="lib/jQuery/jquery-1.11.0.min.js"></script>
+
+          <!-- ACE Editor -->
+  <!-- load ace -->
+  <script src="lib/ace/src-noconflict/ace.js"></script>
+  <!-- load ace language tools -->
+  <script src="lib/ace/src-noconflict/ext-language_tools.js"></script>
+
+          <!-- Bootstrap -->
+  <!-- Latest compiled and minified CSS -->
+  <link rel="stylesheet" href="lib/bootstrap/css/bootstrap.min.css"/>
+
+  <!-- Optional theme -->
+  <link rel="stylesheet" href="lib/bootstrap/css/bootstrap-theme.min.css"/>
+
+  <!-- Latest compiled and minified JavaScript -->
+  <script src="lib/bootstrap/js/bootstrap.min.js"></script>
+
+          <!-- Bootstrap-Tables -->      
+  <!-- Load Bootstrap-Tables Script -->            
+  <script src="lib/bootstrap-table/dist/bootstrap-table.min.js"></script> 
+  
+  <!-- Load Bootstrap-Tables Styles -->
+  <link rel="stylesheet" href="lib/bootstrap-table/dist/bootstrap-table.min.css">
+
+          <!-- jQuery Terminal -->
+  <!--<script src="lib/jquery-terminal/js/jquery-1.7.1.min.js"></script>-->
+  <script src="lib/jquery-terminal/js/jquery.mousewheel-min.js"></script>
+  <script src="lib/jquery-terminal/js/jquery.terminal-min.js"></script>
+  <link rel="stylesheet" href="lib/jquery-terminal/css/jquery.terminal.css"/>
+
+                <!-- Load Scripts and Styles -->
+  <link rel="stylesheet" href="styles/styles.css">
+
+  <script type="text/javascript" src="js/api.js"></script>
+  <script type="text/javascript" src="js/grid-api.js"></script>
+  <script type="text/javascript" src="js/grid-boats.js"></script>
+
+<script   src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"   integrity="sha256-xNjb53/rY+WmG+4L6tTl9m6PpqknWZvRt0rO1SRnJzw="   crossorigin="anonymous"></script>
+
+</head>
+<body>
+  <div class="split">
+    
+    <!-- ACE Editor -->
+    <div id="editor" onkeypress="editorKeyPressed()"></div>
+
+    <!-- My Ace File that runs Ace Editor -->
+    <script src="js/ace/my-ace.js"></script>
+
+
+    <div id="controls">
+
+      <!-- Controls -->
+      <button type="button" class="btn btn-primary" id="send_button" onclick="runButtonOnClicked()"><img src="lib/glyphicons/png/glyphicons-422-send.png"></button>
+      <button type="button" class="btn btn-primary" id="save_button" onclick="saveButtonOnClicked2('anthony2')"><img id="save_icon" src="lib/glyphicons/png/glyphicons-447-floppy-save.png"></button>
+      <div id="terminal" style="height: 45vh">
+        <script>
+          term = $('#terminal').terminal(function(command, term){}, { 
+            prompt: '>', greetings: "", enabled: false, focus: false
+          });
+          term.disabled = "disabled";
+        </script>
+      </div>
+    </div>
+  </div>
+  <div class="split">
+    <div style="height:50%; background-image: url('http://i5.walmartimages.com/dfw/dce07b8c-78bf/k2-_910c1e89-cec8-4578-81e5-cfd44d512a11.v1.jpg');
+    background-size: 57%;
+        background-repeat: no-repeat;
+            background-position: 50%;
+    "></div>
+    <div style="height:50%" id="game"></div>
+  <script>
+    var buttomBuilder = '';
+    
+    function verfiyUser(user)
+    {
+        if(user === 'Anthony'){
+            printToConsole("You Won!", "green");
+        }else{
+            printToConsole("Sorry please try again!", "red");
+        }
+    }
+
+    function question(arg)
+    {
+        switch(arg){
+            case "glasses=yes":
+                printToConsole("no","red");
+                break;
+            case "glasses=no":
+                printToConsole("yes","green");
+                break;
+            case "hair=black":
+                printToConsole("yes","green");
+                break;
+            case "hair=brown":
+                printToConsole("no","red");
+                break;
+            case "sex=male":
+                printToConsole("yes","green");
+                break;
+            case "sex=female":
+                printToConsole("no","red");
+                break;
+            default:
+                printToConsole("Incorrect argument", "red");
+                break;
+        }
+    }
+
+
+    printToConsole("LOADING PEOPLE", "green");
+
+    $.ajax({
+      type: "POST",
+      url: "/query",          
+      data: JSON.stringify({ "query": "SELECT * FROM names" }),
+      contentType: "application/json; charset=utf-8",
+      dataType: "json",
+      success: function(data){
+
+	// Buttons 
+	for(var index in data.rows)
+	{
+		var person = data.rows[index];
+       		buttomBuilder += '<button type="button" class="btn btn-default btn btn-primary btn-lg" onclick=hide(' + person.id + ') id=' + person.id + ' ><img src="lib/glyphicons/png/glyphicons-4-user.png"><br />' +  person.name + '</button>';        
+	}
+	
+    	printToConsole("SUCESSFULLY LOADED PEOPLE", "green");
+    	
+	$("#game").append( $.parseHTML( buttomBuilder ) );
+    },
+      failure: function(errMsg) {
+        printToConsole("ERROR: LOADING PEOPLE", "red");
+      }
+    });
+    function hide(id){
+        if( $( "#" + id ).hasClass( "btn-primary" ) ){
+            $( "#" + id ).switchClass( "btn-primary", "btn-danger", 1000, "easeInOutQuad"  );
+        }
+        else
+        {
+            $( "#" + id ).switchClass( "btn-danger", "btn-primary", 1000, "easeInOutQuad"  );
+        }
+    }
+
+
+      // Loading code from the database
+      printToConsole("LOADING CODE", "#5bc0de");
+      $.ajax({
+        type: "POST",
+        url: "/load/code",          
+        data: JSON.stringify({ "author": "anthony2" }),
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        success: function(data){
+          printToConsole("SUCCESSFULLY LOADING CODE", "green"); 
+          console.log(data);
+          editor.insert(data[0].code);
+        },
+        failure: function(errMsg) {
+          printToConsole("ERROR: LOADING CODE", "red"); 
+        }
+      });
+  </script>
+  </div>
+</body>
+</html>
