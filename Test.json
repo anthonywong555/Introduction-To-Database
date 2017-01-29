@@ -2,49 +2,49 @@
   "processed_language":"en",
   "personality":[
     {
-      "trait_id":"Openness",
+      "trait_id":"big5_openness",
       "name":"Openness",
       "category":"personality",
       "percentage":0.6612206793119573,
       "sampling_error":0.050595952400000005,
       "children":[
         {
-          "trait_id":"Adventurousness",
+          "trait_id":"facet_adventurousness",
           "name":"Adventurousness",
           "category":"personality",
           "percentage":0.24043774415221247,
           "sampling_error":0.04468687184
         },
         {
-          "trait_id":"Artistic interests",
+          "trait_id":"facet_artistic_interests",
           "name":"Artistic interests",
           "category":"personality",
           "percentage":0.5932706248013528,
           "sampling_error":0.09140584591999999
         },
         {
-          "trait_id":"Emotionality",
+          "trait_id":"facet_emotionality",
           "name":"Emotionality",
           "category":"personality",
           "percentage":0.7984989767450132,
           "sampling_error":0.041612530079999994
         },
         {
-          "trait_id":"Imagination",
+          "trait_id":"facet_imagination",
           "name":"Imagination",
           "category":"personality",
           "percentage":0.668596243463806,
           "sampling_error":0.05545261144
         },
         {
-          "trait_id":"Intellect",
+          "trait_id":"facet_intellect",
           "name":"Intellect",
           "category":"personality",
           "percentage":0.49407774319452274,
           "sampling_error":0.04814901264
         },
         {
-          "trait_id":"Liberalism",
+          "trait_id":"facet_liberalism",
           "name":"Authority-challenging",
           "category":"personality",
           "percentage":0.8499067612920262,
